@@ -2,8 +2,8 @@ import {useState} from "react";
 
 function App() {
     const [shoModal, setShoModal] = useState(false);
-    const version = 12;
-    const buttonBug = null;
+    const version = 13;
+    const buttonBug = '🐛';
 
     const renderModal = () => shoModal && !buttonBug && (
         <div id="fantastic-modal-wrapper">
