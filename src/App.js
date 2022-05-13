@@ -2,7 +2,7 @@ import {useState} from "react";
 
 function App() {
     const [shoModal, setShoModal] = useState(false);
-    const version = 0;
+    const version = 1;
     const buttonBug = null;
 
     const renderModal = () => shoModal && !buttonBug && (
