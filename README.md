@@ -17,7 +17,7 @@ Starting out the scope of the search must be defined: a bad commit (where the bu
 - Checkout a bad commit (e.g. the latest one)
 - ```git bisect start``` to start the process
 - ```git bisect bad``` to define one end of the binary search
-- ```git bisect good ###``` with ### as a commit where the bug did not exist (e.g. v1 of the app)
+- ```git bisect good ###``` with ### as a commit where the bug did not exist (e.g. ```b3bdc59c```, v1 of the app)
 
 
 ### The cycle
