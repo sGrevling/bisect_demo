@@ -3,7 +3,7 @@ import {BinarySearch} from "./BinarySearch";
 
 function App() {
     const [fantastic, setFantastic] = useState(1);
-    const version = 19;
+    const version = 20;
     const buttonBug = '🐛';
 
     return (
