@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Git Bisect Demo Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project setup
+- clone repo
+- run ```npm i``` or ```yarn``` to install dependencies.
+- run ```npm start to run on localhost:1337```
 
-## Available Scripts
+The fantastic button does nothing in the latest version; this is a bug.
+If we can find out when the bug was introduced it might make it easier to fix it!
+Enter git bisect.
 
-In the project directory, you can run:
+## Git bisect
+Git bisect uses a binary search to help you find an evil comit ASAP.
+Starting out the scope of the search must be defined: a bad commit (where the bug exists), and the latest known good commit (where it didn't).
 
-### `npm start`
+### Setup
+- Checkout a bad commit (e.g. the latest one)
+- ```git bisect start``` to start the process
+- ```git bisect bad``` to define one end of the binary search
+- ```git bisect good ###``` with ### as a commit where the bug did not exist (e.g. v1 of the app)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### The cycle
+The bisector will now checkout a new commit and you need to tell it if this is a good commit where the bug does not exist or a bad one where it does:
 
-### `npm test`
+```git bisect good``` or ```git bisect bad```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This can be automated using tests:
+```git bisect run <test-script>```
 
-### `npm run build`
+The test script must return ```0``` for good commits and not for bad ones. This is standard behaviour for testing libraries.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If the tests were already in place you shouldn't end up in this situation in the first place. 
+Luckily you can add a test now, try adding this to `App.test.js`:
+```
+test('fantastic_button_works', () => {
+  render(<App />);
+  const button = screen.getByText(/Gjør mer fantastisk/i);
+  expect(button).toBeInTheDocument();
+  userEvent.click(button);
+  expect(screen.getByTestId('amount-fantastic')).toHaveTextContent('2 fantastisk!');
+});
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Then, after the bisect process is started and the scope defined we can run:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```git bisect run jest -t  "fantastic_button_works"```
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The cycle should end by telling us which commit introduced the bug.

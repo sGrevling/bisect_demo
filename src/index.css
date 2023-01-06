@@ -1,13 +1,103 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  height: 100%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  margin: 0;
+  text-align: center;
+  font-family: sans-serif;
+  -ms-overflow-style: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#app > h1 {
+  color: lightgrey;
+}
+
+
+#fantastic-button,
+#fantastic-modal {
+  color: white;
+}
+
+
+#fantastic-button {
+  background-color: dodgerblue;
+  border: .5rem solid #005bb7;
+
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 2rem;
+  border-radius: 2rem;
+
+  cursor: pointer;
+
+  transition: transform 100ms linear, background-color 100ms linear;
+  z-index: 1;
+}
+
+#fantastic-button:hover {
+  background-color: #006ad3;
+  transform: scale(1.03);
+}
+
+#fantastic-div {
+  color: hotpink;
+  font-size: 4rem;
+  font-family: "Comic Sans MS", sans-serif;
+  margin-bottom: 1rem;
+}
+
+#other-content {
+  color: grey;
+  margin-top: 3rem;
+}
+
+.binarySearch {
+  width: 80vw;
+  max-width: 800px;
+}
+
+.possibilities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.possibilities > div {
+  position: relative;
+  cursor: default;
+
+  width: 2rem;
+  height: 2rem;
+  border-radius: 4px;
+  background-color: hotpink;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.possibilities > div.impossible {
+  background-color: grey;
+}
+
+.possibilities > div.active:after {
+  content: '';
+  background-color: dodgerblue;
+  height: 1.5rem;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1.5rem;
+  clip-path: polygon(50% 0%, 85% 90%, 70% 100%, 50% 70%, 30% 100%, 15% 90%);
 }
